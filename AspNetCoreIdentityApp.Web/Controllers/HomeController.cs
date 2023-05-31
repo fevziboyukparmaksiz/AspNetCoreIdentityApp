@@ -31,6 +31,12 @@ namespace AspNetCoreIdentityApp.Web.Controllers
         {
             return View();
         }
+        public IActionResult SignIn()
+        {
+            return View();
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel request)
         {
