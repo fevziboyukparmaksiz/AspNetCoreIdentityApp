@@ -1,5 +1,6 @@
 ﻿using AspNetCoreIdentityApp.Web.CustomValidations;
 using AspNetCoreIdentityApp.Web.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace AspNetCoreIdentityApp.Web.Extensions
 {
@@ -10,17 +11,17 @@ namespace AspNetCoreIdentityApp.Web.Extensions
             services.AddIdentity<AppUser, AppRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnoprstuwxyz1234567890_";
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnoprstuvwxyz1234567890_";
 
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = false;
-                options.Password.RequireDigit = true;
+                options.Password.RequireDigit = false;
 
-
-
-            }).AddPasswordValidator<PasswordValidator>().AddEntityFrameworkStores<AppDbContext>();
+            }).AddPasswordValidator<PasswordValidator>()
+                .AddUserValidator<UserValidator>()
+                .AddEntityFrameworkStores<AppDbContext>();
         }
     }
 }
