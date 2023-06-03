@@ -14,13 +14,24 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddIdentityWithExt();
 
+builder.Services.ConfigureApplicationCookie(opt =>
+{
+    opt.Cookie.Name = "UdemyAppCookie";
+    opt.LoginPath = new PathString("/Home/Signin");
+    opt.ExpireTimeSpan = TimeSpan.FromDays(60);
+    opt.SlidingExpiration = true;
+
+});
+
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
