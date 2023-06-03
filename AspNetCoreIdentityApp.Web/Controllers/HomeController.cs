@@ -39,6 +39,7 @@ namespace AspNetCoreIdentityApp.Web.Controllers
             return View();
         }
 
+
         [HttpPost]
         public async Task<IActionResult> SignIn(SignInViewModel model, string? returnUrl = null)
         {
@@ -72,8 +73,6 @@ namespace AspNetCoreIdentityApp.Web.Controllers
             return View();
         }
 
-
-
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel request)
         {
@@ -95,6 +94,13 @@ namespace AspNetCoreIdentityApp.Web.Controllers
 
             return View();
         }
+
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
