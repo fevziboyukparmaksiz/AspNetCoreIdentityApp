@@ -16,17 +16,20 @@ namespace AspNetCoreIdentityApp.Web.Services
 
         public async Task SendResetPasswordEmail(string resetPasswordEmailLink, string ToEmail)
         {
-            var smptClient = new SmtpClient();
+            var smptClient = new SmtpClient
+            {
+                Host =_emailSettings.Host,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Port = 587,
+                Credentials = new NetworkCredential(_emailSettings.Email, _emailSettings.Password),
+                EnableSsl = true
+            };
 
-            smptClient.Host =_emailSettings.Host;
-            smptClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smptClient.UseDefaultCredentials = false;
-            smptClient.Port = 587;
-            smptClient.Credentials = new NetworkCredential(_emailSettings.Email, _emailSettings.Password);
-            smptClient.EnableSsl = true;
-
-            var mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress(_emailSettings.Email);
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(_emailSettings.Email)
+            };
             mailMessage.To.Add(ToEmail);
 
             mailMessage.Subject = "LocalHost : Şifre Sıfırlama Linki";

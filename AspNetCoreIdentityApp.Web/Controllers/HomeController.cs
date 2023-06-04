@@ -46,7 +46,7 @@ namespace AspNetCoreIdentityApp.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn(SignInViewModel model, string? returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Action("Index", "Home");
+            returnUrl ??= Url.Action("Index", "Home");
 
             var hasUser = await _userManager.FindByEmailAsync(model.Email);
 
@@ -60,7 +60,7 @@ namespace AspNetCoreIdentityApp.Web.Controllers
 
             if (signInresult.Succeeded)
             {
-                return Redirect(returnUrl);
+                return Redirect(returnUrl!);
             }
 
             if (signInresult.IsLockedOut)
@@ -125,6 +125,52 @@ namespace AspNetCoreIdentityApp.Web.Controllers
             TempData["SuccessMessage"] = "Şifre yenileme linki, eposta adresinize gönderilmiştir.";
             return RedirectToAction(nameof(ForgetPassword));
         }
+
+        public IActionResult ResetPassword(string userId, string token)
+        {
+            TempData["userId"] = userId;
+            TempData["token"] = token;
+
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel request)
+        {
+            var userId = TempData["userId"];
+            var token = TempData["token"];
+
+            if (userId == null || token==null)
+            {
+                throw new Exception("Bir hata meydana geldi");
+            }
+
+
+            var hasUser = await _userManager.FindByIdAsync(userId.ToString());
+
+            if (hasUser == null)
+            {
+                ModelState.AddModelError(string.Empty, "Kullanıcı bulunamadı");
+                return View();
+            }
+
+            var result = await _userManager.ResetPasswordAsync(hasUser, token.ToString(), request.Password);
+
+            if (result.Succeeded)
+            {
+                TempData["SuccessMessage"] = "Şifreniz başarıyla değiştirilmiştir.";
+            }
+            else
+            {
+                ModelState.AddModelErrorList(result.Errors.Select(x => x.Description).ToList());
+
+            }
+
+            return View();
+        }
+
+
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
