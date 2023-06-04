@@ -22,6 +22,6 @@ namespace AspNetCoreIdentityApp.Web.ViewModels
         [Required(ErrorMessage = "Yeni şifre tekrar alanı boş bırakılamaz!")]
         [Display(Name = "Yeni şifre tekrar :")]
         [MinLength(6, ErrorMessage = "Şifreniz en az 6 karakter olmalı.")]
-        public string PasswordConfirm { get; set; } = null!;
+        public string PasswordNewConfirm { get; set; } = null!;
     }
 }
