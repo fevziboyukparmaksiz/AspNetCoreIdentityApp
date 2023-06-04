@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using AspNetCoreIdentityApp.Web.Extensions;
 using System.Diagnostics;
+using AspNetCoreIdentityApp.Web.Services;
 
 namespace AspNetCoreIdentityApp.Web.Controllers
 {
@@ -12,12 +13,14 @@ namespace AspNetCoreIdentityApp.Web.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IEmailService _emailService;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService)
         {
             _logger = logger;
             _userManager=userManager;
             _signInManager=signInManager;
+            _emailService=emailService;
         }
 
         public IActionResult Index()
@@ -114,10 +117,10 @@ namespace AspNetCoreIdentityApp.Web.Controllers
 
             string passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(hasUser);
 
-            var passwordResetLink = Url.Action("ResetPassword", "Home", new { userId = hasUser.Id, token = passwordResetToken });
+            var passwordResetLink = Url.Action("ResetPassword", "Home", new { userId = hasUser.Id, token = passwordResetToken }, HttpContext.Request.Scheme);
             //Örnek Link : https://localhost:7081?userid=123214&token=adsgdvasdgjbjhsa
 
-            //Email-service
+            await _emailService.SendResetPasswordEmail(passwordResetLink!, hasUser.Email);
 
             TempData["SuccessMessage"] = "Şifre yenileme linki, eposta adresinize gönderilmiştir.";
             return RedirectToAction(nameof(ForgetPassword));
