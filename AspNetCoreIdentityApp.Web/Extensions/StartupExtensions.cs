@@ -9,6 +9,12 @@ namespace AspNetCoreIdentityApp.Web.Extensions
     {
         public static void AddIdentityWithExt(this IServiceCollection services)
         {
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+            {
+                opt.TokenLifespan = TimeSpan.FromHours(2);
+            });
+
+
             services.AddIdentity<AppUser, AppRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -25,9 +31,10 @@ namespace AspNetCoreIdentityApp.Web.Extensions
 
 
             }).AddPasswordValidator<PasswordValidator>()
-                .AddUserValidator<UserValidator>()
-                .AddErrorDescriber<LocalizationIdentityErrorDescriber>()
-                .AddEntityFrameworkStores<AppDbContext>();
+              .AddUserValidator<UserValidator>()
+              .AddErrorDescriber<LocalizationIdentityErrorDescriber>()
+              .AddDefaultTokenProviders()
+              .AddEntityFrameworkStores<AppDbContext>();
         }
     }
 }
