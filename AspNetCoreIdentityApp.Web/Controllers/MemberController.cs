@@ -31,6 +31,7 @@ namespace AspNetCoreIdentityApp.Web.Controllers
                 Email = currentUser.Email,
                 UserName = currentUser.UserName,
                 PhoneNumber = currentUser.PhoneNumber,
+                PictureUrl = currentUser.Picture
             };
 
             return View(userViewModel);
