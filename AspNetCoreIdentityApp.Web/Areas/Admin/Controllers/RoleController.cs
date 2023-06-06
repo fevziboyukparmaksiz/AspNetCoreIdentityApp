@@ -100,5 +100,33 @@ namespace AspNetCoreIdentityApp.Web.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(RoleController.Index));
         }
+
+        public async Task<IActionResult> AssignRoleToUser(string id)
+        {
+            var currentUser = await _userManager.FindByNameAsync(id);
+            var roles = await _roleManager.Roles.ToListAsync();
+            var userRoles = await _userManager.GetRolesAsync(currentUser);
+            var roleViewModelList = new List<AssignRoleToUserViewModel>();
+
+            foreach (var role in roles)
+            {
+                var assignRoleToUserViewModel = new AssignRoleToUserViewModel
+                {
+                    Id = role.Id,
+                    Name = role.Name,
+                };
+
+                if (userRoles.Contains(role.Name))
+                {
+                    assignRoleToUserViewModel.Exist = true;
+                }
+
+                roleViewModelList.Add(assignRoleToUserViewModel);
+            }
+
+            return View(roleViewModelList);
+        }
+
+
     }
 }
