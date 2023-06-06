@@ -3,8 +3,6 @@
     ViewData["Title"] = "Index";
 }
 
-
-
 @model List<AdminModel.RoleListViewModel>
 
 <div class="row">
@@ -18,8 +16,6 @@
 </div>
 <div class="row">
    
-
-
     <div class="col-md-8 offset-2">
         <table class="table table-striped">
             <thead>
@@ -36,15 +32,16 @@
                     <tr>
                         <td>@user.Id</td>
                         <td>@user.Name</td>
+                        <td >
+                            <a class="btn btn-dark btn-sm" asp-area="admin" asp-controller="role" asp-action="RoleUpdate" asp-route-id="@user.Id">Rol Güncelle</a>
+
+                        </td>
                     </tr>
                 }
             </tbody>
 
         </table>
     </div>
-
-
-
 
 </div>
 

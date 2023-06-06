@@ -28,8 +28,6 @@ namespace AspNetCoreIdentityApp.Web.Areas.Admin.Controllers
             })
             .ToListAsync();
 
-
-
             return View(roles);
         }
 
@@ -50,6 +48,38 @@ namespace AspNetCoreIdentityApp.Web.Areas.Admin.Controllers
 
 
             return RedirectToAction(nameof(RoleController.Index));
+        }
+
+        public async Task<IActionResult> RoleUpdate(string id)
+        {
+            var roleToUpdate = await _roleManager.FindByIdAsync(id);
+
+            if (roleToUpdate == null)
+            {
+                throw new Exception("Güncellenecek rol bulunamadı.");
+            }
+
+            return View(new RoleUpdateViewModel { Id = roleToUpdate.Id, Name = roleToUpdate.Name });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RoleUpdate(RoleUpdateViewModel request)
+        {
+            var roleToUpdate = await _roleManager.FindByIdAsync(request.Id);
+
+            if (roleToUpdate == null)
+            {
+                throw new Exception("Güncellenecek rol bulunamadı.");
+            }
+            roleToUpdate.Name = request.Name;
+            await _roleManager.UpdateAsync(roleToUpdate);
+
+            ViewData["SuccessMessage"] = "Rol bilgisi güncellenmiştir";
+            {
+
+            }
+
+            return View();
         }
 
 
