@@ -33,6 +33,7 @@ builder.Services.ConfigureApplicationCookie(opt =>
     opt.Cookie.Name = "UdemyAppCookie";
     opt.LoginPath = new PathString("/Home/Signin");
     opt.LogoutPath = new PathString("/Member/Logout");
+    opt.AccessDeniedPath = new PathString("/Member/AccessDenied");
     opt.ExpireTimeSpan = TimeSpan.FromDays(60);
     opt.SlidingExpiration = true;
 
