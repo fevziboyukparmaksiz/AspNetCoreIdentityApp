@@ -6,6 +6,7 @@ using AspNetCoreIdentityApp.Web.Extensions;
 using System.Diagnostics;
 using AspNetCoreIdentityApp.Web.Services;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspNetCoreIdentityApp.Web.Controllers
 {
@@ -103,7 +104,7 @@ namespace AspNetCoreIdentityApp.Web.Controllers
             }
 
 
-            var exhangeExpireClaim = new Claim("ExhangeExpireDate", DateTime.Now.ToString());
+            var exhangeExpireClaim = new Claim("ExhangeExpireDate", DateTime.Now.AddDays(10).ToString());
 
             var user = await _userManager.FindByNameAsync(request.UserName);
 
@@ -193,7 +194,11 @@ namespace AspNetCoreIdentityApp.Web.Controllers
             return View();
         }
 
-
+        [Authorize(Policy = "ExchangePolicy")]
+        public IActionResult ExchangePage()
+        {
+            return View();
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

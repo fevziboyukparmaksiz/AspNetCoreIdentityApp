@@ -5,7 +5,6 @@ namespace AspNetCoreIdentityApp.Web.Requirements
 {
     public class ExchangeExpireRequirement : IAuthorizationRequirement
     {
-
     }
 
     public class ExchangeExpireRequirementHandler : AuthorizationHandler<ExchangeExpireRequirement>
