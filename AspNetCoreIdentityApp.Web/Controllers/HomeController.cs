@@ -25,6 +25,10 @@ namespace AspNetCoreIdentityApp.Web.Controllers
 
         public IActionResult Index()
         {
+
+
+
+
             return View();
         }
 
