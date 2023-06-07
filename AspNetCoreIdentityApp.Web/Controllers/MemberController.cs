@@ -196,6 +196,13 @@ namespace AspNetCoreIdentityApp.Web.Controllers
             return View();
         }
 
+        [Authorize(Policy = "ViolencePolicy")]
+        public IActionResult ViolencePage()
+        {
+            return View();
+        }
+
+
         public IActionResult AccessDenied(string url)
         {
 
