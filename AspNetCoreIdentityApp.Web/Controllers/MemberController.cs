@@ -126,7 +126,7 @@ namespace AspNetCoreIdentityApp.Web.Controllers
             if (request.Picture != null && request.Picture.Length>0)
             {
                 var wwwrootFolder = _fileProvider.GetDirectoryContents("wwwroot");
-                string randomFileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(request.Picture!.FileName)}";
+                string randomFileName = $"{Guid.NewGuid()}{Path.GetExtension(request.Picture!.FileName)}";
 
                 var newPicturePath = Path.Combine(wwwrootFolder.First(x => x.Name=="userpictures").PhysicalPath, randomFileName);
 
@@ -185,11 +185,8 @@ namespace AspNetCoreIdentityApp.Web.Controllers
 
         public IActionResult AccessDenied(string url)
         {
-            string message = string.Empty;
 
-            message = "Bu sayfayı görmeye yetkiniz yoktur. Yönetici ile görüşebilirsiniz.";
-
-            ViewBag.message = message;
+            ViewBag.message = "Bu sayfayı görmeye yetkiniz yoktur. Yönetici ile görüşebilirsiniz.";
             return View();
         }
 
