@@ -167,7 +167,7 @@ namespace AspNetCoreIdentityApp.Web.Controllers
 
         }
 
-        public async Task<IActionResult> Claims()
+        public IActionResult Claims()
         {
             var userClaimList = User.Claims.Select(x => new ClaimViewModel()
             {
@@ -178,6 +178,14 @@ namespace AspNetCoreIdentityApp.Web.Controllers
 
 
             return View(userClaimList);
+        }
+
+
+
+        [Authorize(Policy = "KaramanPolicy")]
+        public IActionResult KaramanPage()
+        {
+            return View();
         }
 
 

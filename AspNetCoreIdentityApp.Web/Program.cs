@@ -42,6 +42,13 @@ builder.Services.ConfigureApplicationCookie(opt =>
 
 });
 
+builder.Services.AddAuthorization(opt =>
+{
+    opt.AddPolicy("KaramanPolicy", policy =>
+    {
+        policy.RequireClaim("city", "Karaman");
+    });
+});
 
 
 
