@@ -181,15 +181,11 @@ namespace AspNetCoreIdentityApp.Web.Controllers
         }
 
 
-
         [Authorize(Policy = "KaramanPolicy")]
         public IActionResult KaramanPage()
         {
             return View();
         }
-
-
-
 
         public IActionResult AccessDenied(string url)
         {
