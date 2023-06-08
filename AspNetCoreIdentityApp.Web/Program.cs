@@ -65,12 +65,21 @@ builder.Services.AddAuthorization(opt =>
         policy.AddRequirements(new ViolenceRequirement() { ThresholdAge = 18 });
     });
 
-    opt.AddPolicy("OrderPermissionReadAndDelete", policy =>
+    opt.AddPolicy("Permissions.Order.Read", policy =>
     {
         policy.RequireClaim("permission", Permissions.Order.Read);
-        policy.RequireClaim("permission", Permissions.Order.Create);
+    });
+
+    opt.AddPolicy("Permissions.Order.Delete", policy =>
+    {
+        policy.RequireClaim("permission", Permissions.Order.Delete);
+    });
+
+    opt.AddPolicy("Permissions.Stock.Delete", policy =>
+    {
         policy.RequireClaim("permission", Permissions.Stock.Delete);
     });
+
 });
 
 
