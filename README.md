@@ -25,3 +25,6 @@ Rol bazlı yetkilendirme
 Claim bazlı yetkilendirme 
 
 Permission izin yapısı
+
+#
+Değerli bilgiler için sayın [@FatihÇakıroğlu](https://github.com/Fcakiroglu16) 'na teşekkür ederim
